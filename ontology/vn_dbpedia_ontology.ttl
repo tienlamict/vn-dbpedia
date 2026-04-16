@@ -1,0 +1,104 @@
+@prefix vndbp: <http://vi.dbpedia.org/ontology/> .
+@prefix vndbpr: <http://vi.dbpedia.org/resource/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<http://vi.dbpedia.org/ontology/> a owl:Ontology ;
+    rdfs:label "Vietnamese DBpedia Ontology"@en, "Ban the luan DBpedia tieng Viet"@vi ;
+    dcterms:description "Ontology for Vietnamese historical and political figures"@en ;
+    owl:versionInfo "1.0" .
+
+# === CLASSES ===
+
+vndbp:Person a owl:Class ;
+    rdfs:subClassOf foaf:Person ;
+    rdfs:label "Person"@en, "Con nguoi"@vi ;
+    rdfs:comment "Lop dai dien cho mot con nguoi"@vi .
+
+vndbp:HistoricalFigure a owl:Class ;
+    rdfs:subClassOf vndbp:Person ;
+    rdfs:label "Historical Figure"@en, "Nhan vat lich su"@vi .
+
+vndbp:Politician a owl:Class ;
+    rdfs:subClassOf vndbp:Person ;
+    rdfs:label "Politician"@en, "Chinh tri gia"@vi .
+
+vndbp:Monarch a owl:Class ;
+    rdfs:subClassOf vndbp:HistoricalFigure ;
+    rdfs:label "Monarch"@en, "Quan chu"@vi ;
+    rdfs:comment "Vua, chua, hoang de Viet Nam"@vi .
+
+vndbp:MilitaryPerson a owl:Class ;
+    rdfs:subClassOf vndbp:Person ;
+    rdfs:label "Military Person"@en, "Nhan vat quan su"@vi .
+
+vndbp:Dynasty a owl:Class ;
+    rdfs:label "Dynasty"@en, "Trieu dai"@vi ;
+    rdfs:comment "Trieu dai phong kien Viet Nam"@vi .
+
+vndbp:Place a owl:Class ;
+    rdfs:label "Place"@en, "Dia diem"@vi .
+
+# === DATATYPE PROPERTIES ===
+
+vndbp:birthDate a owl:DatatypeProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range xsd:date ;
+    rdfs:label "birth date"@en, "ngay sinh"@vi .
+
+vndbp:deathDate a owl:DatatypeProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range xsd:date ;
+    rdfs:label "death date"@en, "ngay mat"@vi .
+
+vndbp:reignStart a owl:DatatypeProperty ;
+    rdfs:domain vndbp:Monarch ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "reign start"@en, "bat dau tri vi"@vi .
+
+vndbp:reignEnd a owl:DatatypeProperty ;
+    rdfs:domain vndbp:Monarch ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "reign end"@en, "ket thuc tri vi"@vi .
+
+vndbp:position a owl:DatatypeProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "position"@en, "chuc vu"@vi .
+
+vndbp:alternativeName a owl:DatatypeProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range xsd:string ;
+    rdfs:label "alternative name"@en, "ten goi khac"@vi .
+
+# === OBJECT PROPERTIES ===
+
+vndbp:birthPlace a owl:ObjectProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range vndbp:Place ;
+    rdfs:label "birth place"@en, "noi sinh"@vi .
+
+vndbp:deathPlace a owl:ObjectProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range vndbp:Place ;
+    rdfs:label "death place"@en, "noi mat"@vi .
+
+vndbp:dynasty a owl:ObjectProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range vndbp:Dynasty ;
+    rdfs:label "dynasty"@en, "trieu dai"@vi .
+
+vndbp:father a owl:ObjectProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range vndbp:Person ;
+    rdfs:label "father"@en, "cha"@vi .
+
+vndbp:successor a owl:ObjectProperty ;
+    rdfs:domain vndbp:Person ;
+    rdfs:range vndbp:Person ;
+    rdfs:label "successor"@en, "nguoi ke vi"@vi .

@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+fuseki-data/
+
+# Data (keep structure, ignore large generated files)
+data/raw/*.json
+data/rdf/*.ttl
+data/final/*.ttl
+
+# Spec
+spec.md
+
+.claude

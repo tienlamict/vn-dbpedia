@@ -1,0 +1,68 @@
+# === Query 1: Dem tong so nhan vat ===
+PREFIX vndbp: <http://vi.dbpedia.org/ontology/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+SELECT (COUNT(DISTINCT ?p) AS ?total) WHERE {
+  ?p a foaf:Person .
+}
+
+# === Query 2: Tat ca vua Viet Nam, sap xep theo ngay sinh ===
+PREFIX vndbp: <http://vi.dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?monarch ?name ?birth WHERE {
+  ?monarch a vndbp:Monarch ;
+           rdfs:label ?name .
+  OPTIONAL { ?monarch vndbp:birthDate ?birth . }
+}
+ORDER BY ?birth
+
+# === Query 3: Nhan vat sinh truoc nam 1900 ===
+PREFIX vndbp: <http://vi.dbpedia.org/ontology/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?name ?birth WHERE {
+  ?p rdfs:label ?name ;
+     vndbp:birthDate ?birth .
+  FILTER(?birth < "1900-01-01"^^xsd:date)
+}
+ORDER BY ?birth
+
+# === Query 4: Nhan vat co lien ket sang DBpedia EN ===
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?name ?enUri WHERE {
+  ?p rdfs:label ?name ;
+     owl:sameAs ?enUri .
+  FILTER(STRSTARTS(STR(?enUri), "http://dbpedia.org/resource/"))
+}
+LIMIT 20
+
+# === Query 5: Federated query — lay them abstract tieng Anh tu DBpedia ===
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+SELECT ?viName ?abstract WHERE {
+  ?p rdfs:label ?viName ;
+     owl:sameAs ?enUri .
+  FILTER(STRSTARTS(STR(?enUri), "http://dbpedia.org/resource/"))
+  SERVICE <https://dbpedia.org/sparql> {
+    ?enUri dbo:abstract ?abstract .
+    FILTER(LANG(?abstract) = "en")
+  }
+}
+LIMIT 5
+
+# === Query 6: Phan bo theo loai (Monarch / Politician / Military) ===
+PREFIX vndbp: <http://vi.dbpedia.org/ontology/>
+SELECT ?type (COUNT(?p) AS ?count) WHERE {
+  ?p a ?type .
+  FILTER(?type IN (vndbp:Monarch, vndbp:Politician, vndbp:MilitaryPerson, vndbp:HistoricalFigure))
+}
+GROUP BY ?type
+ORDER BY DESC(?count)
+
+# === Query 7: Tim theo ten (vi du: chua "Hồ") ===
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?p ?name WHERE {
+  ?p rdfs:label ?name .
+  FILTER(CONTAINS(?name, "Hồ"))
+}
